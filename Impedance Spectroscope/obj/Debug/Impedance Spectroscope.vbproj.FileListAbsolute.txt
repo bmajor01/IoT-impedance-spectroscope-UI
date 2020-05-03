@@ -9,3 +9,14 @@ C:\Users\Admin\source\repos\Impedance Spectroscope\Impedance Spectroscope\obj\De
 C:\Users\Admin\source\repos\Impedance Spectroscope\Impedance Spectroscope\obj\Debug\Impedance Spectroscope.exe
 C:\Users\Admin\source\repos\Impedance Spectroscope\Impedance Spectroscope\obj\Debug\Impedance Spectroscope.xml
 C:\Users\Admin\source\repos\Impedance Spectroscope\Impedance Spectroscope\obj\Debug\Impedance Spectroscope.pdb
+C:\Users\Admin\source\repos\Impedance Spectroscope\IoT-impedance-spectroscope-UI\Impedance Spectroscope\bin\Debug\Impedance Spectroscope.exe
+C:\Users\Admin\source\repos\Impedance Spectroscope\IoT-impedance-spectroscope-UI\Impedance Spectroscope\bin\Debug\Impedance Spectroscope.pdb
+C:\Users\Admin\source\repos\Impedance Spectroscope\IoT-impedance-spectroscope-UI\Impedance Spectroscope\bin\Debug\Impedance Spectroscope.xml
+C:\Users\Admin\source\repos\Impedance Spectroscope\IoT-impedance-spectroscope-UI\Impedance Spectroscope\obj\Debug\Impedance Spectroscope.vbprojAssemblyReference.cache
+C:\Users\Admin\source\repos\Impedance Spectroscope\IoT-impedance-spectroscope-UI\Impedance Spectroscope\obj\Debug\Impedance_Spectroscope.Form1.resources
+C:\Users\Admin\source\repos\Impedance Spectroscope\IoT-impedance-spectroscope-UI\Impedance Spectroscope\obj\Debug\Impedance_Spectroscope.Resources.resources
+C:\Users\Admin\source\repos\Impedance Spectroscope\IoT-impedance-spectroscope-UI\Impedance Spectroscope\obj\Debug\Impedance Spectroscope.vbproj.GenerateResource.cache
+C:\Users\Admin\source\repos\Impedance Spectroscope\IoT-impedance-spectroscope-UI\Impedance Spectroscope\obj\Debug\Impedance Spectroscope.vbproj.CoreCompileInputs.cache
+C:\Users\Admin\source\repos\Impedance Spectroscope\IoT-impedance-spectroscope-UI\Impedance Spectroscope\obj\Debug\Impedance Spectroscope.exe
+C:\Users\Admin\source\repos\Impedance Spectroscope\IoT-impedance-spectroscope-UI\Impedance Spectroscope\obj\Debug\Impedance Spectroscope.xml
+C:\Users\Admin\source\repos\Impedance Spectroscope\IoT-impedance-spectroscope-UI\Impedance Spectroscope\obj\Debug\Impedance Spectroscope.pdb
