@@ -115,7 +115,6 @@ Public Class Form1
             Button11.Text = "Measurement stopped"
         End If
 
-
         Return stateString
 
     End Function
@@ -168,21 +167,30 @@ Public Class Form1
     Function GetData()
 
         Dim data As String
+        Dim stat As String
 
         'While (data <> "CMD_STOP_MEAS")
         Dim cmd() As Byte = {Commands.CMD_DO_SWEEP, 13}
         SerialPort1.Write(cmd, 0, 2)
-
-        data = SerialPort1.ReadLine()
+        stat = SerialPort1.ReadLine()
+        If stat = "DATA:" Then
+            data = SerialPort1.ReadLine()
 
             Dim fields() As String = Split(data, ",")
             Dim real As Integer = CInt(fields(1))
             Dim imag As Integer = CInt(fields(3))
 
-        Label10.Text = real
-        Label11.Text = imag
+            Label10.Text = real
+            Label11.Text = imag
 
-        Me.Chart1.Series("Impedancia").Points.AddXY(real, imag)
+            Me.Chart1.Series("Impedancia").Points.AddXY(real, imag)
+        ElseIf stat = "MEASUREMENT_RUNNING" Then
+            Label2.Text = "MEASUREMENT_RUNNING"
+        ElseIf stat = "STATUS_SWEEP_DONE" Then
+            Dim cmd1() As Byte = {Commands.CMD_STOP_MEAS, 13}
+            SerialPort1.Write(cmd1, 0, 2)
+        End If
+
         'End While
 
         'Dim data As String
@@ -282,5 +290,9 @@ Public Class Form1
         If (state(0) = "1") Then
             GetData()
         End If
+    End Sub
+
+    Private Sub Button16_Click(sender As Object, e As EventArgs) Handles Button16.Click
+        Timer1.Enabled = True
     End Sub
 End Class
