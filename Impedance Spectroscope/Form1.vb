@@ -150,18 +150,29 @@ Public Class Form1
 
     Private Sub Button11_Click(sender As Object, e As EventArgs) Handles Button11.Click
         'SendCommand(Commands.CMD_START_MEAS)
-        measurement = True
+        Dim stat As String
+
         If SerialPort1.IsOpen Then
-            Dim cmd() As Byte = {Commands.CMD_START_MEAS, 13}
+            Dim cmd() As Byte = {Commands.CMD_DO_SWEEP, 13}
             SerialPort1.Write(cmd, 0, 2)
-            Label2.Text = SerialPort1.ReadLine()
+            stat = SerialPort1.ReadLine()
+            Label2.Text = stat
         Else
             ErrorProvider1.SetError(Button6, "Serial port not open!")
-
         End If
 
-        'GetData()
+        Dim fields() As String = Split(stat, ",")
 
+        If fields(0) = "DATA" Then
+
+            Dim real As Integer = CInt(fields(2))
+            Dim imag As Integer = CInt(fields(4))
+
+            Label10.Text = real
+            Label11.Text = imag
+
+            Me.Chart1.Series("Impedancia").Points.AddXY(real, imag)
+        End If
     End Sub
 
     Function GetData()
@@ -203,7 +214,7 @@ Public Class Form1
     End Sub
 
 
-    Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click
+    Private Sub Button7_Click(sender As Object, e As EventArgs)
 
         For index As Integer = 0 To 3140 * 2
 
@@ -286,13 +297,39 @@ Public Class Form1
     End Sub
 
     Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
-        Dim state As String = RefreshState()
-        If (state(0) = "1") Then
-            GetData()
+        'SendCommand(Commands.CMD_START_MEAS)
+        Dim stateloc As String
+        Dim stat As String
+
+        If SerialPort1.IsOpen Then
+            Dim cmd() As Byte = {Commands.CMD_DO_SWEEP, 13}
+            SerialPort1.Write(cmd, 0, 2)
+            stat = SerialPort1.ReadLine()
+            Label2.Text = stat
+
+        Else
+            ErrorProvider1.SetError(Button6, "Serial port not open!")
         End If
+
+        stateloc = RefreshState()
+        Dim fields() As String = Split(stat, ",")
+
+        If fields(0) = "DATA" And stateloc(0) = "1" Then
+
+            Dim real As Integer = CInt(fields(2))
+            Dim imag As Integer = CInt(fields(4))
+
+            Label10.Text = real
+            Label11.Text = imag
+
+            Me.Chart1.Series("Impedancia").Points.AddXY(real, imag)
+        End If
+
+
     End Sub
 
     Private Sub Button16_Click(sender As Object, e As EventArgs) Handles Button16.Click
+        SendCommand(Commands.CMD_START_MEAS)
         Timer1.Enabled = True
     End Sub
 End Class
