@@ -23,9 +23,9 @@ Partial Class Form1
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim ChartArea9 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Legend9 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Series9 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim ChartArea1 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend1 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series1 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
         Me.SerialPort1 = New System.IO.Ports.SerialPort(Me.components)
         Me.Button1 = New System.Windows.Forms.Button()
         Me.Button2 = New System.Windows.Forms.Button()
@@ -55,13 +55,17 @@ Partial Class Form1
         Me.Label3 = New System.Windows.Forms.Label()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.Label5 = New System.Windows.Forms.Label()
-        Me.Button16 = New System.Windows.Forms.Button()
         Me.Label7 = New System.Windows.Forms.Label()
         Me.Label8 = New System.Windows.Forms.Label()
         Me.Label9 = New System.Windows.Forms.Label()
         Me.Label10 = New System.Windows.Forms.Label()
         Me.Label11 = New System.Windows.Forms.Label()
         Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
+        Me.Button7 = New System.Windows.Forms.Button()
+        Me.Button17 = New System.Windows.Forms.Button()
+        Me.Button18 = New System.Windows.Forms.Button()
+        Me.Button19 = New System.Windows.Forms.Button()
+        Me.Button16 = New System.Windows.Forms.Button()
         CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Chart1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -227,18 +231,18 @@ Partial Class Form1
         '
         'Chart1
         '
-        ChartArea9.Name = "ChartArea1"
-        Me.Chart1.ChartAreas.Add(ChartArea9)
-        Legend9.Name = "Legend1"
-        Me.Chart1.Legends.Add(Legend9)
-        Me.Chart1.Location = New System.Drawing.Point(212, 42)
+        ChartArea1.Name = "ChartArea1"
+        Me.Chart1.ChartAreas.Add(ChartArea1)
+        Legend1.Name = "Legend1"
+        Me.Chart1.Legends.Add(Legend1)
+        Me.Chart1.Location = New System.Drawing.Point(220, 42)
         Me.Chart1.Name = "Chart1"
-        Series9.ChartArea = "ChartArea1"
-        Series9.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line
-        Series9.Legend = "Legend1"
-        Series9.Name = "Impedancia"
-        Me.Chart1.Series.Add(Series9)
-        Me.Chart1.Size = New System.Drawing.Size(878, 593)
+        Series1.ChartArea = "ChartArea1"
+        Series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line
+        Series1.Legend = "Legend1"
+        Series1.Name = "Impedancia"
+        Me.Chart1.Series.Add(Series1)
+        Me.Chart1.Size = New System.Drawing.Size(870, 593)
         Me.Chart1.TabIndex = 18
         Me.Chart1.Text = "Chart1"
         '
@@ -323,19 +327,10 @@ Partial Class Form1
         Me.Label5.TabIndex = 28
         Me.Label5.Text = "Device resp:"
         '
-        'Button16
-        '
-        Me.Button16.Location = New System.Drawing.Point(87, 80)
-        Me.Button16.Name = "Button16"
-        Me.Button16.Size = New System.Drawing.Size(98, 23)
-        Me.Button16.TabIndex = 30
-        Me.Button16.Text = "START_MEAS"
-        Me.Button16.UseVisualStyleBackColor = True
-        '
         'Label7
         '
         Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(220, 50)
+        Me.Label7.Location = New System.Drawing.Point(110, 46)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(39, 13)
         Me.Label7.TabIndex = 31
@@ -381,17 +376,66 @@ Partial Class Form1
         '
         Me.Timer1.Interval = 1000
         '
+        'Button7
+        '
+        Me.Button7.Location = New System.Drawing.Point(9, 583)
+        Me.Button7.Name = "Button7"
+        Me.Button7.Size = New System.Drawing.Size(98, 23)
+        Me.Button7.TabIndex = 36
+        Me.Button7.Text = "CAL"
+        Me.Button7.UseVisualStyleBackColor = True
+        '
+        'Button17
+        '
+        Me.Button17.Location = New System.Drawing.Point(116, 484)
+        Me.Button17.Name = "Button17"
+        Me.Button17.Size = New System.Drawing.Size(98, 23)
+        Me.Button17.TabIndex = 37
+        Me.Button17.Text = "RESET PLOT"
+        Me.Button17.UseVisualStyleBackColor = True
+        '
+        'Button18
+        '
+        Me.Button18.Location = New System.Drawing.Point(12, 612)
+        Me.Button18.Name = "Button18"
+        Me.Button18.Size = New System.Drawing.Size(98, 23)
+        Me.Button18.TabIndex = 38
+        Me.Button18.Text = "CPLX/ABS"
+        Me.Button18.UseVisualStyleBackColor = True
+        '
+        'Button19
+        '
+        Me.Button19.Location = New System.Drawing.Point(116, 397)
+        Me.Button19.Name = "Button19"
+        Me.Button19.Size = New System.Drawing.Size(98, 81)
+        Me.Button19.TabIndex = 39
+        Me.Button19.Text = "SWEEP"
+        Me.Button19.UseVisualStyleBackColor = True
+        '
+        'Button16
+        '
+        Me.Button16.Location = New System.Drawing.Point(12, 484)
+        Me.Button16.Name = "Button16"
+        Me.Button16.Size = New System.Drawing.Size(98, 81)
+        Me.Button16.TabIndex = 40
+        Me.Button16.Text = "RESET"
+        Me.Button16.UseVisualStyleBackColor = True
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1102, 647)
+        Me.Controls.Add(Me.Button16)
+        Me.Controls.Add(Me.Button19)
+        Me.Controls.Add(Me.Button18)
+        Me.Controls.Add(Me.Button17)
+        Me.Controls.Add(Me.Button7)
         Me.Controls.Add(Me.Label11)
         Me.Controls.Add(Me.Label10)
         Me.Controls.Add(Me.Label9)
         Me.Controls.Add(Me.Label8)
         Me.Controls.Add(Me.Label7)
-        Me.Controls.Add(Me.Button16)
         Me.Controls.Add(Me.Label5)
         Me.Controls.Add(Me.Label4)
         Me.Controls.Add(Me.Label3)
@@ -457,11 +501,15 @@ Partial Class Form1
     Friend WithEvents Label3 As Label
     Friend WithEvents Label5 As Label
     Friend WithEvents Label4 As Label
-    Friend WithEvents Button16 As Button
     Friend WithEvents Label11 As Label
     Friend WithEvents Label10 As Label
     Friend WithEvents Label9 As Label
     Friend WithEvents Label8 As Label
     Friend WithEvents Label7 As Label
     Friend WithEvents Timer1 As Timer
+    Friend WithEvents Button7 As Button
+    Friend WithEvents Button18 As Button
+    Friend WithEvents Button17 As Button
+    Friend WithEvents Button19 As Button
+    Friend WithEvents Button16 As Button
 End Class

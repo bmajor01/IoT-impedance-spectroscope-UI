@@ -31,9 +31,6 @@ Public Class Form1
         SendCommand(Commands.CMD_SET_CH6)
     End Sub
 
-    Private Sub TextBox1_TextChanged(sender As Object, e As EventArgs) Handles TextBox1.TextChanged
-
-    End Sub
 
     Function RefreshState() As String
 
@@ -135,6 +132,7 @@ Public Class Form1
             Label1.Text = v
         End If
 
+        SendCommand(Commands.CMD_STOP_MEAS)
         RefreshState()
 
     End Sub
@@ -144,35 +142,10 @@ Public Class Form1
 
     End Sub
 
-    Private Sub TextBox6_TextChanged(sender As Object, e As EventArgs) Handles TextBox6.TextChanged
-
-    End Sub
-
+    Dim dataPoint As Integer
     Private Sub Button11_Click(sender As Object, e As EventArgs) Handles Button11.Click
-        'SendCommand(Commands.CMD_START_MEAS)
-        Dim stat As String
-
-        If SerialPort1.IsOpen Then
-            Dim cmd() As Byte = {Commands.CMD_DO_SWEEP, 13}
-            SerialPort1.Write(cmd, 0, 2)
-            stat = SerialPort1.ReadLine()
-            Label2.Text = stat
-        Else
-            ErrorProvider1.SetError(Button6, "Serial port not open!")
-        End If
-
-        Dim fields() As String = Split(stat, ",")
-
-        If fields(0) = "DATA" Then
-
-            Dim real As Integer = CInt(fields(2))
-            Dim imag As Integer = CInt(fields(4))
-
-            Label10.Text = real
-            Label11.Text = imag
-
-            Me.Chart1.Series("Impedancia").Points.AddXY(real, imag)
-        End If
+        SendCommand(Commands.CMD_START_MEAS)
+        Timer1.Enabled = Not Timer1.Enabled
     End Sub
 
     Function GetData()
@@ -190,6 +163,9 @@ Public Class Form1
             Dim fields() As String = Split(data, ",")
             Dim real As Integer = CInt(fields(1))
             Dim imag As Integer = CInt(fields(3))
+
+            Dim magnitude As Double = Sqrt(real * real + imag * imag)
+            Label7.Text = magnitude
 
             Label10.Text = real
             Label11.Text = imag
@@ -209,18 +185,6 @@ Public Class Form1
 
     End Function
 
-    Private Sub Chart1_Click(sender As Object, e As EventArgs)
-
-    End Sub
-
-
-    Private Sub Button7_Click(sender As Object, e As EventArgs)
-
-        For index As Integer = 0 To 3140 * 2
-
-        Next
-
-    End Sub
     Enum Commands As Byte
         CMD_GETSTATE = 120
         CMD_IDN = 97
@@ -242,6 +206,7 @@ Public Class Form1
         CMD_RECIEVE_NUMBERINCREMENTS = 107
         CMD_RECIEVE_SETTLING = 108
         CMD_DO_SWEEP = 104
+        CMD_RESET = 114
     End Enum
     Function SendCommand(command As Commands)
         If SerialPort1.IsOpen Then
@@ -295,7 +260,6 @@ Public Class Form1
     Private Sub Button10_Click(sender As Object, e As EventArgs) Handles Button10.Click
         SendValue(Commands.CMD_RECIEVE_SETTLING, TextBox6.Text)
     End Sub
-
     Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
         'SendCommand(Commands.CMD_START_MEAS)
         Dim stateloc As String
@@ -322,14 +286,95 @@ Public Class Form1
             Label10.Text = real
             Label11.Text = imag
 
-            Me.Chart1.Series("Impedancia").Points.AddXY(real, imag)
+            Dim phase As Double
+
+            Dim magnitude As Double = Sqrt(real * real + imag * imag)
+
+            If real > 0 And imag > 0 Then
+                phase = Atan(imag / real) * 180 / PI
+            ElseIf imag < 0 Then
+                phase = 180 + (Atan(imag / real) * 180 / PI)
+            ElseIf real < 0 And imag > 0 Then
+                phase = 360 + (Atan(imag / real) * 180 / PI)
+            End If
+
+            Dim RealImpedance As Double = magnitude * Cos(phase * PI / 180)
+            Dim ImagImpedance As Double = magnitude * Sin(phase * PI / 180)
+
+            dataPoint = dataPoint + 1
+
+            Label7.Text = magnitude
+
+
+
+            'Me.Chart1.Series("Impedancia").Points.AddXY(dataPoint, 1 / (gainFactor * magnitude))
+
+            Me.Chart1.Series("Impedancia").Points.AddXY(RealImpedance, -ImagImpedance)
         End If
 
 
     End Sub
 
-    Private Sub Button16_Click(sender As Object, e As EventArgs) Handles Button16.Click
+    Private Sub Button16_Click(sender As Object, e As EventArgs)
         SendCommand(Commands.CMD_START_MEAS)
-        Timer1.Enabled = True
+        Timer1.Enabled = Not Timer1.Enabled
+    End Sub
+    Dim gainFactor As Double
+    Private Sub Button7_Click_1(sender As Object, e As EventArgs) Handles Button7.Click
+
+        SendCommand(Commands.CMD_SET_CH5)
+        SendCommand(Commands.CMD_START_MEAS)
+
+
+        Dim stateloc As String
+        Dim stat As String
+
+        If SerialPort1.IsOpen Then
+            Dim cmd() As Byte = {Commands.CMD_DO_SWEEP, 13}
+            SerialPort1.Write(cmd, 0, 2)
+            stat = SerialPort1.ReadLine()
+            Label2.Text = stat
+
+        Else
+            ErrorProvider1.SetError(Button6, "Serial port not open!")
+        End If
+
+        stateloc = RefreshState()
+        Dim fields() As String = Split(stat, ",")
+
+        If fields(0) = "DATA" And stateloc(0) = "1" Then
+
+            Dim real As Integer = CInt(fields(2))
+            Dim imag As Integer = CInt(fields(4))
+
+            Dim magnitude As Double = Sqrt(real * real + imag * imag)
+            gainFactor = ((1 / 10000) / magnitude)
+            Label7.Text = gainFactor
+            Label10.Text = real
+            Label11.Text = imag
+
+            'Me.Chart1.Series("Impedancia").Points.AddXY(real, imag)
+        End If
+        SendCommand(Commands.CMD_STOP_MEAS)
+
+
+    End Sub
+
+    Private Sub Button19_Click(sender As Object, e As EventArgs) Handles Button19.Click
+
+    End Sub
+
+    Private Sub Button18_Click(sender As Object, e As EventArgs) Handles Button18.Click
+
+    End Sub
+
+    Private Sub Button16_Click_1(sender As Object, e As EventArgs) Handles Button16.Click
+        SendCommand(Commands.CMD_RESET)
+    End Sub
+
+    Private Sub Button17_Click(sender As Object, e As EventArgs) Handles Button17.Click
+        Chart1.Series.Clear()
+        Chart1.Series.Add("Impedancia")
+
     End Sub
 End Class
